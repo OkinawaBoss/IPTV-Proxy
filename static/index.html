@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Channel Editor</title>
+
+  <!-- DataTables Core CSS/JS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+  <!-- DataTables Select Extension CSS/JS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/select/1.6.2/css/select.dataTables.min.css"/>
+  <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
+
+  <!-- Optional DataTables Buttons -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css"/>
+  <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    h1, h2, h3, h4 {
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background: #3498db;
+      color: #fff;
+      transition: background 0.3s ease;
+      margin-right: 5px;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+
+    table.dataTable {
+      width: 100% !important;
+      border-collapse: collapse;
+    }
+    table.dataTable thead th {
+      background-color: #ecf0f1;
+      color: #2c3e50;
+      font-weight: bold;
+      border-bottom: 2px solid #bdc3c7;
+    }
+
+    .logo {
+      width: 70px;
+      height: auto;
+      background-color: #6a85b0;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      padding: 5px;
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .select-icon {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 30px !important;
+      height: 30px !important;
+      border-radius: 50% !important;
+      text-align: center !important;
+      font-weight: bold !important;
+      font-size: 18px !important;
+      line-height: 1 !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .select-icon[data-selected="selected"] {
+      color: darkred;
+      border: 3px solid darkred !important;
+      border-color: darkred;
+      background-color: lightcoral;
+    }
+
+    .select-icon[data-selected="unselected"] {
+      color: green;
+      border: 3px solid darkgreen !important;
+      border-color: green;
+      background-color: lightseagreen;
+    }
+
+    .select-icon:hover {
+      transform: scale(1.2) !important;
+      opacity: 0.9 !important;
+    }
+
+    .section-title {
+      margin-top: 40px;
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    #groupFilter {
+      margin-top: 20px;
+    }
+
+    #groupCheckboxes label {
+      margin-right: 15px;
+      cursor: pointer;
+      font-weight: normal;
+    }
+
+    #groupCheckboxes input {
+      margin-right: 3px;
+    }
+
+    #filteredSection ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #filteredSection ul li {
+      margin: 5px 0;
+    }
+
+    .refresh-buttons {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Channel Editor</h1>
+
+    <div class="refresh-buttons">
+      <button id="refreshEPGBtn">Refresh EPG</button>
+      <button id="refreshM3UBtn">Refresh Channels</button>
+      <button id="saveFilteredBtn">Save Filter</button>
+    </div>
+
+    <h3>Some of the channels might not show EPG until it is added to your filter.</h3> 
+
+    <h2 class="section-title">Channels</h2>
+    <table id="dataTable" class="display" style="width:100%">
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Logo</th>
+          <th>TVG Name</th>
+          <th>Group</th>
+          <th>Stream URL</th>
+          <th>EPG</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      const table = $('#dataTable').DataTable({
+        data: [],
+        columns: [
+          { title: "Select", width: "5%" },
+          { title: "Logo", width: "10%" },
+          { title: "TVG Name", width: "30%" },
+          { title: "Group", width: "20%" },
+          { title: "Stream URL", width: "25%" },
+          { title: "EPG", width: "10%" },
+        ],
+        responsive: true,
+        pageLength: 20,
+        language: { emptyTable: "No channels to display" },
+      });
+    });
+  </script>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
